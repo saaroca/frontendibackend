@@ -52,12 +52,18 @@ namespace WebApplication7.Controllers
             foreach (Ubicacio ubicacio in llistaUbicacions)
             {
                 features feature = new features();
-                feature.idEstacio = ubicacio.idEstacio;
+                feature.type = "Feature";
+
+                feature.Geometry = new geometry();
+                feature.Geometry.coordinates = new double?[2];
+                feature.Geometry.coordinates[0] = ubicacio.Longitud;
+                feature.Geometry.coordinates[1] = ubicacio.Latitud;
+                feature.Geometry.type = "Point";
+
                 feature.Properties = new properties();
                 feature.Properties.nomUbicacio = ubicacio.nomUbicacio;
-                feature.Geometry = new geometry();
-                feature.Geometry.coordinates[0] = ubicacio.Latitud;
-                feature.Geometry.coordinates[1] = ubicacio.Longitud;
+
+                feature.idEstacio = ubicacio.idEstacio;
 
                 res.Add(feature);
             }

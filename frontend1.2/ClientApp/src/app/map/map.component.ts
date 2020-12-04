@@ -4,7 +4,7 @@ import { TPO, PuntsInteres, ParcNou } from '../../assets/js/sample-geojson.js';
 import '../../assets/js/leaflet-sidebar.js'
 import { SafeResourceUrl } from '@angular/platform-browser';
 import * as angular from "angular";
-
+import * as $ from "jquery";
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -82,45 +82,67 @@ export class MapComponent {
 
     L.control.layers(Mapes).addTo(this.map);
 
-    L.geoJson([
-      $.ajax({
-          method: "GET",
-          url: "../../../../Controllers/EstacionsController/PintarUbicacio",
-          contentType: "application/json; charset=utf-8",
-          dataType: "json"
-      })]);
-    
-    L.geoJSON([PuntsInteres, ParcNou], {
-
-      style: function (feature) {
-        return feature.properties && feature.properties.style;
+    $.ajax({
+      data: {
+        "key": "value", "key2": { "key": { "key": "value", "key2": "value2" }, "key2": "value2", "key3": { "key": "value" }, "key4": "value4" }
       },
+      type: "GET",
+      url: "http://localhost:29164/estacions/PintarUbicacio",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json"
+    }).done(function (data) {
+      L.geoJson(data, {
+
+        style: function (feature) {
+          return feature.properties && feature.properties.style;
+        },
 
 
-      pointToLayer: function (feature, latlng) {
-        return L.circleMarker(latlng, {
-          radius: 8,
-          fillColor: "#ff7800",
-          color: "#000",
-          weight: 1,
-          opacity: 1,
-          fillOpacity: 0.8
-        });
-      }
-    }).addTo(this.map).on('click', this.onClick, this);
-
-    L.geoJSON(TPO, {
-
-      filter: function (feature, layer) {
-        if (feature.properties) {
-          // If the property "underConstruction" exists and is true, return false (don't render features under construction)
-          return feature.properties.underConstruction !== undefined ? !feature.properties.underConstruction : true;
+        pointToLayer: function (feature, latlng) {
+          return L.circleMarker(latlng, {
+            radius: 8,
+            fillColor: "#ff7800",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+          });
         }
-        return false;
-      },
+      }).addTo(this.map).on('click', this.onClick, this);
+    })
 
-      onEachFeature: this.onEachFeature
-    }).addTo(this.map);
+
+    //L.geoJSON([PuntsInteres, ParcNou], {
+
+    //  style: function (feature) {
+    //    return feature.properties && feature.properties.style;
+    //  },
+
+
+    //  pointToLayer: function (feature, latlng) {
+    //    return L.circleMarker(latlng, {
+    //      radius: 8,
+    //      fillColor: "#ff7800",
+    //      color: "#000",
+    //      weight: 1,
+    //      opacity: 1,
+    //      fillOpacity: 0.8
+    //    });
+    //  }
+    //}).addTo(this.map).on('click', this.onClick, this);
+
+    //L.geoJSON(TPO, {
+
+    //  filter: function (feature, layer) {
+    //    if (feature.properties) {
+    //      // If the property "underConstruction" exists and is true, return false (don't render features under construction)
+    //      return feature.properties.underConstruction !== undefined ? !feature.properties.underConstruction : true;
+    //    }
+    //    return false;
+    //  },
+
+    //  onEachFeature: this.onEachFeature
+    //}).addTo(this.map);
 
 
     this.sidebarPointList = L.control.sidebar('sidebarPointList', {

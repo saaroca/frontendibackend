@@ -28,6 +28,6 @@ namespace WebApplication7.Models
     {
        public string type { get; set; }
 
-       public double[] coordinates { get; set; }
+       public double?[] coordinates { get; set; }
     }
 }
