@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace WebApplication7.Models
 {
-
-    public class Estacio
+    [Table("ubicacio")]
+    public class Ubicacio
     {
+        [Required]
+        [Key]
+        public string idEstacio { get; set; }
 
-        public string codiEstacio { get; set; }
+        public string nomUbicacio { get; set; }
 
         public double? Latitud { get; set; }
 

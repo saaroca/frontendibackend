@@ -21,7 +21,7 @@ namespace WebApplication7.Models
 
     internal class properties
     {
-        string name { get; set; }
+        string nomUbicacio { get; set; }
     }
 
     internal class geometry
