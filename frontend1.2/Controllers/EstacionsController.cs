@@ -35,6 +35,7 @@ namespace WebApplication7.Controllers
         {
             Calendar();
             FindDate("", "07/11/2020", "08/11/2020");
+            PintarUbicacio();
             return View(llistaEstacions);
         }
 
@@ -42,6 +43,28 @@ namespace WebApplication7.Controllers
         {
 
         }
+
+        public List<features> PintarUbicacio()
+        {
+            llistaUbicacions = _context.Ubicacio.ToList();
+            List<features> res = new List<features>();
+
+            foreach (Ubicacio ubicacio in llistaUbicacions)
+            {
+                features feature = new features();
+                feature.idEstacio = ubicacio.idEstacio;
+                feature.Properties = new properties();
+                feature.Properties.nomUbicacio = ubicacio.nomUbicacio;
+                feature.Geometry = new geometry();
+                feature.Geometry.coordinates[0] = ubicacio.Latitud;
+                feature.Geometry.coordinates[1] = ubicacio.Longitud;
+
+                res.Add(feature);
+            }
+
+            return res;
+        }
+
         public void FindDate(string idEstacio, string dataInici, string dataFi)
         {
             DateTime inici = DateTime.Parse(dataInici);

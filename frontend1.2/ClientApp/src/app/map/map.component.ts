@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
-import { TPO, PuntsInteres, ParcNou} from '../../assets/js/sample-geojson.js';
+import { TPO, PuntsInteres, ParcNou } from '../../assets/js/sample-geojson.js';
 import '../../assets/js/leaflet-sidebar.js'
 import { SafeResourceUrl } from '@angular/platform-browser';
 import * as angular from "angular";
@@ -52,7 +52,7 @@ export class MapComponent {
     closeButton: true,
     container: 'sidebarPointList',
   }
-  
+
 
   onEachFeature(feature, layer) {
     var popupContent = "<p>He començat com a GeoJSON " +
@@ -82,6 +82,14 @@ export class MapComponent {
 
     L.control.layers(Mapes).addTo(this.map);
 
+    L.geoJson([
+      $.ajax({
+          method: "GET",
+          url: "../../../../Controllers/EstacionsController/PintarUbicacio",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json"
+      })]);
+    
     L.geoJSON([PuntsInteres, ParcNou], {
 
       style: function (feature) {

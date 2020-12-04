@@ -10,24 +10,24 @@ namespace WebApplication7.Models
 
     public class features
     {
-        string idEstacio { get; set; }
+        public string idEstacio { get; set; }
 
-        string type { get; set; }
+        public string type { get; set; }
 
-        geometry geometry { get; set; }
+        public geometry Geometry { get; set; }
 
-        properties properties { get; set; }
+        public properties Properties { get; set; }
     }
 
-    internal class properties
+    public class properties
     {
-        string nomUbicacio { get; set; }
+        public string nomUbicacio { get; set; }
     }
 
-    internal class geometry
+    public class geometry
     {
-        string type { get; set; }
+       public string type { get; set; }
 
-        double[] coordinates { get; set; }
+       public double[] coordinates { get; set; }
     }
 }

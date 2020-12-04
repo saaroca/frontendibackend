@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebApplication7.Models
 {
-    [Table("ubicacio")]
+    [Table("Ubicacio")]
     public class Ubicacio
     {
         [Required]
@@ -16,9 +16,9 @@ namespace WebApplication7.Models
 
         public string nomUbicacio { get; set; }
 
-        public double? Latitud { get; set; }
+        public double Latitud { get; set; }
 
-        public double? Longitud { get; set; }
-      
+        public double Longitud { get; set; }
+
     }
 }
