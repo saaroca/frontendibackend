@@ -44,31 +44,35 @@ namespace WebApplication7.Controllers
 
         }
 
-        public List<features> PintarUbicacio()
+        public featuress PintarUbicacio()
         {
             llistaUbicacions = _context.Ubicacio.ToList();
-            List<features> res = new List<features>();
+
+            featuress features = new featuress();
+            features.type = "FeatureCollection";
+
+            features.features = new List<feature>();
 
             foreach (Ubicacio ubicacio in llistaUbicacions)
             {
-                features feature = new features();
+                feature feature = new feature();
                 feature.type = "Feature";
 
                 feature.Geometry = new geometry();
-                feature.Geometry.coordinates = new double?[2];
-                feature.Geometry.coordinates[0] = ubicacio.Longitud;
-                feature.Geometry.coordinates[1] = ubicacio.Latitud;
-                feature.Geometry.type = "Point";
+                    feature.Geometry.coordinates = new double?[2];
+                    feature.Geometry.coordinates[0] = ubicacio.Longitud;
+                    feature.Geometry.coordinates[1] = ubicacio.Latitud;
+                    feature.Geometry.type = "Point";
 
                 feature.Properties = new properties();
-                feature.Properties.nomUbicacio = ubicacio.nomUbicacio;
+                    feature.Properties.nomUbicacio = ubicacio.nomUbicacio;
 
                 feature.idEstacio = ubicacio.idEstacio;
 
-                res.Add(feature);
+                features.features.Add(feature);
             }
 
-            return res;
+            return features;
         }
 
         public void FindDate(string idEstacio, string dataInici, string dataFi)

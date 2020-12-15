@@ -7,16 +7,24 @@ using System.Threading.Tasks;
 
 namespace WebApplication7.Models
 {
+    public class featuress
+    {
+        public string type { get; set; }
 
-    public class features
+        public List<feature> features {get; set;}
+
+        //public feature feature { get; set; }
+    }
+
+    public class feature
     {
         public string idEstacio { get; set; }
-
-        public string type { get; set; }
 
         public geometry Geometry { get; set; }
 
         public properties Properties { get; set; }
+
+        public string type { get; set; }
     }
 
     public class properties

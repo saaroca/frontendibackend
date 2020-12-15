@@ -54,16 +54,16 @@ export class MapComponent {
   }
 
 
-  onEachFeature(feature, layer) {
-    var popupContent = "<p>He començat com a GeoJSON " +
-      feature.geometry.type + ", Però ara sóc un vector de leaflet!</p>";
+  //onEachFeature(feature, layer) {
+  //  var popupContent = "<p>He començat com a GeoJSON " +
+  //    feature.geometry.type + ", Però ara sóc un vector de leaflet!</p>";
 
-    if (feature.properties && feature.properties.popupContent) {
-      popupContent += feature.properties.popupContent;
-    }
+  //  if (feature.properties && feature.properties.popupContent) {
+  //    popupContent += feature.properties.popupContent;
+  //  }
 
-    layer.bindPopup(popupContent);
-  }
+  //  layer.bindPopup(popupContent);
+  //}
 
   MGris = L.tileLayer(this.mbUrl, { id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: this.mbAttr });
   Carrers = L.tileLayer(this.mbUrl, { id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: this.mbAttr });
@@ -82,7 +82,10 @@ export class MapComponent {
 
     L.control.layers(Mapes).addTo(this.map);
 
+    var geoJson;
+
     $.ajax({
+      async: false,
       data: {
         "key": "value", "key2": { "key": { "key": "value", "key2": "value2" }, "key2": "value2", "key3": { "key": "value" }, "key4": "value4" }
       },
@@ -91,59 +94,29 @@ export class MapComponent {
       contentType: "application/json; charset=utf-8",
       dataType: "json"
     }).done(function (data) {
-      L.geoJson(data, {
+      geoJson = data;
+      })
 
-        style: function (feature) {
-          return feature.properties && feature.properties.style;
-        },
+      L.geoJSON([geoJson], {
 
-
-        pointToLayer: function (feature, latlng) {
-          return L.circleMarker(latlng, {
-            radius: 8,
-            fillColor: "#ff7800",
-            color: "#000",
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.8
-          });
-        }
-      }).addTo(this.map).on('click', this.onClick, this);
-    })
+      style: function (feature) {
+        return feature.properties && feature.properties.style;
+      },
 
 
-    //L.geoJSON([PuntsInteres, ParcNou], {
+      pointToLayer: function (geoJson, latlng) {
+        return L.circleMarker(latlng, {
+          radius: 8,
+          fillColor: "#ff7800",
+          color: "#000",
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.8
+        });
+      }
+    }).addTo(this.map).on('click', this.onClick, this);
 
-    //  style: function (feature) {
-    //    return feature.properties && feature.properties.style;
-    //  },
-
-
-    //  pointToLayer: function (feature, latlng) {
-    //    return L.circleMarker(latlng, {
-    //      radius: 8,
-    //      fillColor: "#ff7800",
-    //      color: "#000",
-    //      weight: 1,
-    //      opacity: 1,
-    //      fillOpacity: 0.8
-    //    });
-    //  }
-    //}).addTo(this.map).on('click', this.onClick, this);
-
-    //L.geoJSON(TPO, {
-
-    //  filter: function (feature, layer) {
-    //    if (feature.properties) {
-    //      // If the property "underConstruction" exists and is true, return false (don't render features under construction)
-    //      return feature.properties.underConstruction !== undefined ? !feature.properties.underConstruction : true;
-    //    }
-    //    return false;
-    //  },
-
-    //  onEachFeature: this.onEachFeature
-    //}).addTo(this.map);
-
+    
 
     this.sidebarPointList = L.control.sidebar('sidebarPointList', {
       closeButton: true,
@@ -178,5 +151,7 @@ export class MapComponent {
     sidebar.addPanel(this.panelContent);
     sidebar.open('text');
   }
+
 };
+
 
