@@ -74,9 +74,6 @@ export class MapComponent {
 
     $.ajax({
       async: false,
-      data: {
-        "key": "value", "key2": { "key": { "key": "value", "key2": "value2" }, "key2": "value2", "key3": { "key": "value" }, "key4": "value4" }
-      },
       type: "GET",
       url: "http://localhost:29164/estacions/PintarUbicacio",
       contentType: "application/json; charset=utf-8",
@@ -129,27 +126,34 @@ export class MapComponent {
     this.map.setView([n1, n2], z)
   }
 
-  onClick(data, feature) {
-    var app = angular.module('leaflet-app', [])
+  onClick(data) {
     const sidebar = this.sidebar;
     sidebar.removePanel('text');
-    var ei = data.sourceTarget.feature.idEstacio
+
+    var idestacio = data.sourceTarget.feature.idEstacio
+    var geoJson;
+
     //fer crida ajax al metode findID del controller passant id estació del data
     $.ajax({
       async: false,
-      data: { "idEstacio" : ei },
-      type: "POST",
+      data: { "idEstacio": idestacio },
+      type: "GET",
       url: "http://localhost:29164/estacions/FindId",
       dataType: "json"
-    })
+    }).done(function (data) {
 
+      geoJson = data;
 
-    let content = data.sourceTarget.feature.properties.popupContent;
-    let panelHtml = `<h1>${content} </h1>`
+      })
+
+    let content = geoJson.heatindex;
+    let panelHtml = `<h1> ${content} </h1>`
     this.panelContent.pane = panelHtml;
     sidebar.addPanel(this.panelContent);
     sidebar.open('text');
+
   }
+
 
 };
 

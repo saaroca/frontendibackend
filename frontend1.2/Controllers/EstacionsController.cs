@@ -101,15 +101,14 @@ namespace WebApplication7.Controllers
 
         }
 
-        [HttpPost]
-        public void FindId(string idEstacio)
+
+        //Mètode que s'activa cuan es fa click al punt on hi ha l'estació
+        [HttpGet]
+        public Estacions FindId(string idEstacio)
         {
-            //HA de retornar un geoJson amb les dades del'estacio segons l'id de l'ubicació a la taula archive
-
-             long maxData = Convert.ToInt64(_context.Estacio.Where(x => x.idEstacio == idEstacio).Select(x => x.dateTime).Max());
-
+            
+            //Segons l'id de l'ubicacio de la taula ubicació busca l'id d'estacio a la taula archive
             Estacions estacio = _context.Estacio.Where(x => x.idEstacio == idEstacio).SingleOrDefault();
-           // Estacions estacio = _context.Estacio.Where(x => x.dateTime == maxData && x.idEstacio == idEstacio).SingleOrDefault();
 
             if (estacio.usUnits == 1)
             {
@@ -117,7 +116,10 @@ namespace WebApplication7.Controllers
                 FarenheitToCelsius(estacio);
                 knotsToKm(estacio);
             }
+
+            return estacio;
         }
+
 
         //Metode que passa de farenheit a celsius
         public void FarenheitToCelsius(Estacions estacio)
