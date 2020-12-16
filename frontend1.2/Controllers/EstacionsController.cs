@@ -14,10 +14,6 @@ namespace WebApplication7.Controllers
     {
         private readonly EstacionsContext _context;
 
-        //public EstacionsControllerContext(DbContextOptions options) : base(options)
-        //{
-
-        //}
         List<Estacions> llistaEstacions = new List<Estacions>();
         List<Ubicacio> llistaUbicacions = new List<Ubicacio>();
 
@@ -59,13 +55,13 @@ namespace WebApplication7.Controllers
                 feature.type = "Feature";
 
                 feature.Geometry = new geometry();
-                    feature.Geometry.coordinates = new double?[2];
-                    feature.Geometry.coordinates[0] = ubicacio.Longitud;
-                    feature.Geometry.coordinates[1] = ubicacio.Latitud;
-                    feature.Geometry.type = "Point";
+                feature.Geometry.coordinates = new double?[2];
+                feature.Geometry.coordinates[0] = ubicacio.Longitud;
+                feature.Geometry.coordinates[1] = ubicacio.Latitud;
+                feature.Geometry.type = "Point";
 
                 feature.Properties = new properties();
-                    feature.Properties.nomUbicacio = ubicacio.nomUbicacio;
+                feature.Properties.nomUbicacio = ubicacio.nomUbicacio;
 
                 feature.idEstacio = ubicacio.idEstacio;
 
@@ -105,18 +101,22 @@ namespace WebApplication7.Controllers
 
         }
 
+        [HttpPost]
         public void FindId(string idEstacio)
         {
-            // long maxData = Convert.ToInt64(_context.Estacio.Where(x => x.idEstacio == idEstacio).Select(x => x.dateTime).Max());
+            //HA de retornar un geoJson amb les dades del'estacio segons l'id de l'ubicació a la taula archive
 
-            // Models.Estacions estacio = _context.Estacio.Where( x => x.dateTime == maxData && x.idEstacio == idEstacio).SingleOrDefault();
+             long maxData = Convert.ToInt64(_context.Estacio.Where(x => x.idEstacio == idEstacio).Select(x => x.dateTime).Max());
 
-            // if (estacio.usUnits == 1)
-            // {
-            //     DataConvertHuman(llistaEstacions);
-            //     FarenheitToCelsius(llistaEstacions);
-            //     knotsToKm(llistaEstacions);
-            // }
+            Estacions estacio = _context.Estacio.Where(x => x.idEstacio == idEstacio).SingleOrDefault();
+           // Estacions estacio = _context.Estacio.Where(x => x.dateTime == maxData && x.idEstacio == idEstacio).SingleOrDefault();
+
+            if (estacio.usUnits == 1)
+            {
+                DataConvertHuman(estacio);
+                FarenheitToCelsius(estacio);
+                knotsToKm(estacio);
+            }
         }
 
         //Metode que passa de farenheit a celsius

@@ -53,18 +53,6 @@ export class MapComponent {
     container: 'sidebarPointList',
   }
 
-
-  //onEachFeature(feature, layer) {
-  //  var popupContent = "<p>He començat com a GeoJSON " +
-  //    feature.geometry.type + ", Però ara sóc un vector de leaflet!</p>";
-
-  //  if (feature.properties && feature.properties.popupContent) {
-  //    popupContent += feature.properties.popupContent;
-  //  }
-
-  //  layer.bindPopup(popupContent);
-  //}
-
   MGris = L.tileLayer(this.mbUrl, { id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: this.mbAttr });
   Carrers = L.tileLayer(this.mbUrl, { id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: this.mbAttr });
 
@@ -95,9 +83,9 @@ export class MapComponent {
       dataType: "json"
     }).done(function (data) {
       geoJson = data;
-      })
+    })
 
-      L.geoJSON([geoJson], {
+    L.geoJSON([geoJson], {
 
       style: function (feature) {
         return feature.properties && feature.properties.style;
@@ -116,7 +104,7 @@ export class MapComponent {
       }
     }).addTo(this.map).on('click', this.onClick, this);
 
-    
+
 
     this.sidebarPointList = L.control.sidebar('sidebarPointList', {
       closeButton: true,
@@ -145,6 +133,17 @@ export class MapComponent {
     var app = angular.module('leaflet-app', [])
     const sidebar = this.sidebar;
     sidebar.removePanel('text');
+    var ei = data.sourceTarget.feature.idEstacio
+    //fer crida ajax al metode findID del controller passant id estació del data
+    $.ajax({
+      async: false,
+      data: { "idEstacio" : ei },
+      type: "POST",
+      url: "http://localhost:29164/estacions/FindId",
+      dataType: "json"
+    })
+
+
     let content = data.sourceTarget.feature.properties.popupContent;
     let panelHtml = `<h1>${content} </h1>`
     this.panelContent.pane = panelHtml;
