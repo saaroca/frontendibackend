@@ -141,13 +141,15 @@ export class MapComponent {
       url: "http://localhost:29164/estacions/FindId",
       dataType: "json"
     }).done(function (data) {
-
       geoJson = data;
-
       })
 
-    let content = geoJson.heatindex;
-    let panelHtml = `<h1> ${content} </h1>`
+    let panelHtml = '</br>' + `<h4> CURRENT CONDITIONS </h4>` + '</br>' + `<p> Outside Temperature ${geoJson.outTemp}ºC </p>` +
+      `<p> Heat Index ${geoJson.heatindex}ºC </p>` + `<p> Wind Chill ${geoJson.windchill}ºC </p>` +
+      `<p> Dew Point ${geoJson.dewpoint}ºC </p>` + `<p> Humidity ${geoJson.outHumidity}% </p>` +
+      `<p> Barometer ${geoJson.barometer} mbar </p>` + `<p> Wind ${geoJson.windSpeed}km/h </p>` +
+      `<p> Rain Rate ${geoJson.rainRate} cm/h </p>` + `<p> Rain Today ${geoJson.rain}cm </p>` +
+      `<p> Inside Temperature ${geoJson.inTemp}ºC </p>` + `<p> Inside Humidity ${geoJson.inHumidity}% </p>`
     this.panelContent.pane = panelHtml;
     sidebar.addPanel(this.panelContent);
     sidebar.open('text');
