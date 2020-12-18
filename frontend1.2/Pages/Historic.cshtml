@@ -1,0 +1,37 @@
+﻿@page
+@model HistoricModel
+@{
+    ViewData["Title"] = "Historic";
+}
+
+<h1 class="text-danger">HISTORIA.</h1>
+
+@if (Model.ShowRequestId)
+{
+<p>
+    <strong>Historic a tope:</strong> <code>@Model.RequestId</code>
+</p>
+}
+
+<label for="start">Data Inici:</label>
+
+<input type="date" id="start" name="trip-start"
+       value="2020-12-18"
+       min="2018-01-01" max="2025-12-31">
+
+<label for="start">Data Fi:</label>
+
+<input type="date" id="end" name="trip-start"
+       value="2020-11-18"
+       min="2018-01-01" max="2025-12-31">
+</br>
+
+<button type="button" id="btn" onclick="cercaHistoric(start, end)"> HISTORIC MENSUAL!</button>
+@functions{
+ public void cercaHistoric(DateTime dataInici, DateTime dataFi)
+        {
+           EstacionsController estacionsC = new EstacionsController();
+           double Inici = estacionsC.DataToEpoch(dataInici);
+           double Fi = estacionsC.DataToEpoch(dataFi);
+        }
+}

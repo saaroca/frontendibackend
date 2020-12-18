@@ -126,35 +126,41 @@ export class MapComponent {
     this.map.setView([n1, n2], z)
   }
 
+  hey() {
+    alert("HOLA")
+  }
+
   onClick(data) {
     const sidebar = this.sidebar;
     sidebar.removePanel('text');
-
-    var idestacio = data.sourceTarget.feature.idEstacio
     var geoJson;
 
     //fer crida ajax al metode findID del controller passant id estació del data
     $.ajax({
       async: false,
-      data: { "idEstacio": idestacio },
+      data: { "idEstacio": data.sourceTarget.feature.idEstacio },
       type: "GET",
       url: "http://localhost:29164/estacions/FindId",
       dataType: "json"
     }).done(function (data) {
       geoJson = data;
-      })
+    })
 
-    let panelHtml = '</br>' + `<h4> CURRENT CONDITIONS </h4>` + '</br>' + `<p> Outside Temperature ${geoJson.outTemp}ºC </p>` +
+    let panelHtml = '<html>' +
+      '<srcipt> function hey() {} </script>' + '</br>' + `<h4> CURRENT CONDITIONS </h4>` + '</br>' + `<p> Outside Temperature ${geoJson.outTemp}ºC </p>` +
       `<p> Heat Index ${geoJson.heatindex}ºC </p>` + `<p> Wind Chill ${geoJson.windchill}ºC </p>` +
       `<p> Dew Point ${geoJson.dewpoint}ºC </p>` + `<p> Humidity ${geoJson.outHumidity}% </p>` +
       `<p> Barometer ${geoJson.barometer} mbar </p>` + `<p> Wind ${geoJson.windSpeed}km/h </p>` +
       `<p> Rain Rate ${geoJson.rainRate} cm/h </p>` + `<p> Rain Today ${geoJson.rain}cm </p>` +
-      `<p> Inside Temperature ${geoJson.inTemp}ºC </p>` + `<p> Inside Humidity ${geoJson.inHumidity}% </p>`
+      `<p> Inside Temperature ${geoJson.inTemp}ºC </p>` + `<p> Inside Humidity ${geoJson.inHumidity}% </p>` +
+      '<button type = "button" id="btn" onclick =window.open("http://localhost:29164/Historic")> Comprovar històric </button>' + '</html>'
+
     this.panelContent.pane = panelHtml;
     sidebar.addPanel(this.panelContent);
     sidebar.open('text');
 
   }
+
 
 
 };

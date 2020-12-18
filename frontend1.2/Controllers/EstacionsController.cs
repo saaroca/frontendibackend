@@ -145,7 +145,7 @@ namespace WebApplication7.Controllers
         }
 
         //Passa de data humana a epoc/unix
-        public static long DataToEpoch(DateTime dateTime) => (int)(dateTime - new DateTime(1970, 1, 1)).TotalSeconds;
+        public long DataToEpoch(DateTime dateTime) => (int)(dateTime - new DateTime(1970, 1, 1)).TotalSeconds;
 
 
     }
