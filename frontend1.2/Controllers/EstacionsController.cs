@@ -106,7 +106,7 @@ namespace WebApplication7.Controllers
         [HttpGet]
         public Estacions FindId(string idEstacio)
         {
-            
+
             //Segons l'id de l'ubicacio de la taula ubicació busca l'id d'estacio a la taula archive
             Estacions estacio = _context.Estacio.Where(x => x.idEstacio == idEstacio).SingleOrDefault();
 
@@ -118,6 +118,11 @@ namespace WebApplication7.Controllers
             }
 
             return estacio;
+        }
+
+        public ActionResult vistaHistoric(string idEstacio)
+        {
+            return View("~/Pages/Historic.cshtml");     
         }
 
 

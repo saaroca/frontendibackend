@@ -1,17 +1,16 @@
 ﻿@page
-@model HistoricModel
+@model WebApplication7.Models.Estacions
 @{
-    ViewData["Title"] = "Historic";
+ 
 }
+
 
 <h1 class="text-danger">HISTORIA.</h1>
 
-@if (Model.ShowRequestId)
-{
-<p>
-    <strong>Historic a tope:</strong> <code>@Model.RequestId</code>
-</p>
-}
+    <p>
+        <strong>Historic a tope:</strong> <code>@(((WebApplication7.Models.Estacions)ViewData["idEstacio"]).idEstacio)</code>
+    </p>
+
 
 <label for="start">Data Inici:</label>
 
@@ -24,14 +23,29 @@
 <input type="date" id="end" name="trip-start"
        value="2020-11-18"
        min="2018-01-01" max="2025-12-31">
-</br>
+
+<input type="button" value="Go Somewhere Else" onclick="location.href='<%: Url.Action(" Action", "Controller" ) %>'" />
 
 <button type="button" id="btn" onclick="cercaHistoric(start, end)"> HISTORIC MENSUAL!</button>
 @functions{
- public void cercaHistoric(DateTime dataInici, DateTime dataFi)
-        {
-           EstacionsController estacionsC = new EstacionsController();
-           double Inici = estacionsC.DataToEpoch(dataInici);
-           double Fi = estacionsC.DataToEpoch(dataFi);
-        }
+
+}
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        function cercaHistoric(start, end) {
+
+            $.ajax({
+                async: false,
+                data: { "idEstacio": , "dataInici": start, "dataFi": end },
+                type: "GET",
+                url: "http://localhost:29164/estacions/FindDate",
+                dataType: "json"
+            }).done(function (data) {
+                start = data;
+            })
+        })
+}
+    </script>
 }
